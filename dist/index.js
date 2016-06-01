@@ -192,11 +192,11 @@ var Dropdown = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: dropdownClass },
-        'HI THERE THIS IS NATE',
         _react2.default.createElement(
           'div',
           { className: baseClassName + '-control', onMouseDown: this.handleMouseDown.bind(this), onTouchEnd: this.handleMouseDown.bind(this) },
           value,
+          'HI THERE THIS IS NATE',
           _react2.default.createElement('span', { className: baseClassName + '-arrow' })
         ),
         menu
