@@ -10,11 +10,18 @@ class Dropdown extends Component {
         label: props.placeholder || 'Select...',
         value: ''
       },
-      isOpen: false
+      isOpen: false,
+      changeStateOnSelect: true
     }
     this.mounted = true
     this.handleDocumentClick = this.handleDocumentClick.bind(this)
     this.fireChangeEvent = this.fireChangeEvent.bind(this)
+  }
+
+  componentWillMount() {
+    if (this.props.changeStateOnSelect != this.state.changeStateOnSelect) {
+      this.setState({changeStateOnSelect: this.props.changeStateOnSelect})
+    }
   }
 
   componentWillReceiveProps (newProps) {
@@ -46,16 +53,32 @@ class Dropdown extends Component {
     })
   }
 
+  staleState() {
+    return {
+      selected: {
+        label: this.props.placeholder || 'Select...',
+        value: ''
+      },
+      isOpen: false
+    }
+  }
+
   setValue (value, label) {
-    let newState = {
+    let triggerState = {
       selected: {
         value,
         label
       },
       isOpen: false
     }
-    this.fireChangeEvent(newState)
-    this.setState(newState)
+
+    if (this.state.changeStateOnSelect) {
+      this.fireChangeEvent(triggerState)
+      this.setState(triggerState)
+    } else {
+      this.fireChangeEvent(triggerState)
+      this.setState(this.staleState())
+    }
   }
 
   fireChangeEvent (newState) {
@@ -128,7 +151,6 @@ class Dropdown extends Component {
       <div className={dropdownClass}>
         <div className={`${baseClassName}-control`} onMouseDown={this.handleMouseDown.bind(this)} onTouchEnd={this.handleMouseDown.bind(this)}>
           {value}
-          HI THERE THIS IS NATE
           <span className={`${baseClassName}-arrow`} />
         </div>
         {menu}

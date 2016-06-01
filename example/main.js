@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 
 import FlatArrayExample from './flatArrayExample'
 import ObjectArrayExample from './objectArrayExample'
+import BtnDropdownExample from './btnDropdownExample'
 
 class App extends Component {
   render () {
@@ -28,7 +29,7 @@ class App extends Component {
           <div className='code'>
             <pre>
               {`
-<Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select an option" />
+<Dropdown changeStateOnSelect={true} options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select an option" />
               `}
             </pre>
           </div>
@@ -36,6 +37,7 @@ class App extends Component {
 
         <FlatArrayExample />
         <ObjectArrayExample />
+        <BtnDropdownExample />
 
         <section>
           <h3>License: </h3>
