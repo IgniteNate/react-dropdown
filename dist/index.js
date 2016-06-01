@@ -41,7 +41,8 @@ var Dropdown = function (_Component) {
         label: props.placeholder || 'Select...',
         value: ''
       },
-      isOpen: false
+      isOpen: false,
+      changeStateOnSelect: true
     };
     _this.mounted = true;
     _this.handleDocumentClick = _this.handleDocumentClick.bind(_this);
@@ -50,6 +51,13 @@ var Dropdown = function (_Component) {
   }
 
   _createClass(Dropdown, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      if (this.props.changeStateOnSelect != this.state.changeStateOnSelect) {
+        this.setState({ changeStateOnSelect: this.props.changeStateOnSelect });
+      }
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
       if (newProps.value && newProps.value !== this.state.selected) {
@@ -83,17 +91,34 @@ var Dropdown = function (_Component) {
       });
     }
   }, {
+    key: 'staleState',
+    value: function staleState() {
+      return {
+        selected: {
+          label: this.props.placeholder || 'Select...',
+          value: ''
+        },
+        isOpen: false
+      };
+    }
+  }, {
     key: 'setValue',
     value: function setValue(value, label) {
-      var newState = {
+      var triggerState = {
         selected: {
           value: value,
           label: label
         },
         isOpen: false
       };
-      this.fireChangeEvent(newState);
-      this.setState(newState);
+
+      if (this.state.changeStateOnSelect) {
+        this.fireChangeEvent(triggerState);
+        this.setState(triggerState);
+      } else {
+        this.fireChangeEvent(triggerState);
+        this.setState(this.staleState());
+      }
     }
   }, {
     key: 'fireChangeEvent',
@@ -196,7 +221,6 @@ var Dropdown = function (_Component) {
           'div',
           { className: baseClassName + '-control', onMouseDown: this.handleMouseDown.bind(this), onTouchEnd: this.handleMouseDown.bind(this) },
           value,
-          'HI THERE THIS IS NATE',
           _react2.default.createElement('span', { className: baseClassName + '-arrow' })
         ),
         menu
