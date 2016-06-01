@@ -126,9 +126,9 @@ class Dropdown extends Component {
 
     return (
       <div className={dropdownClass}>
-            HI THERE THIS IS NATE
         <div className={`${baseClassName}-control`} onMouseDown={this.handleMouseDown.bind(this)} onTouchEnd={this.handleMouseDown.bind(this)}>
           {value}
+          HI THERE THIS IS NATE
           <span className={`${baseClassName}-arrow`} />
         </div>
         {menu}
